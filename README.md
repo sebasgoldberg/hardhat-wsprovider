@@ -1,6 +1,6 @@
 # hardhat-wsprovider
 
-This plug-in it is used to add getProvider function that supports web socket providers.
+This plug-in it is used to add `getProvider` function, that supports web socket providers, to hre.
 
 [Hardhat](https://hardhat.org) web socket provider plugin. 
 
