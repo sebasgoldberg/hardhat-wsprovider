@@ -1,13 +1,13 @@
 # hardhat-wsprovider
 
-This plug-in it is used to add network aliases, organizing the aliases by group.
+This plug-in it is used to add getProvider function that supports web socket providers.
 
-[Hardhat](https://hardhat.org) network alias plugin. 
+[Hardhat](https://hardhat.org) web socket provider plugin. 
 
 ## What
 
 This plugin will help you with:
-- I you want the configuration of one network to be applied in another network.
+- If you want to use web socket providers.
 
 ## Installation
 
@@ -29,36 +29,14 @@ import "@sebasgoldberg/hardhat-wsprovider";
 
 ## Environment extensions
 
-This plugin extends the Hardhat Runtime Environment by adding an `networkAlias` field.
+This plugin extends the Hardhat Runtime Environment by adding an `getProvider` function.
 
-Here is an example to get the network name, considering the alias config.
+Here is an example to get the configured provider in hardhat network config (supports web sockets!).
 
 ``` typescript
 // ...
-this.hre.networkAlias.getNetworkName("aave")
+const p: JsonRpcProvider = this.hre.getProvider()
 // ...
 ```
 
-For the configuration defined below, if it is runnning the `'hardhat'`, will be obtained the `'mainnet'` network.
-
-Please checkout the tests for further details.
-
-
-## Configuration
-
-In the following example it is configured the `'aave'` group.
-
-For the `'aave'` group `'localhost'` and `'hardhat'` will be considered as `'mainnet'` network.
-
-``` typescript
-const config: HardhatUserConfig = {
-  // ...
-  networkAliases: {
-    'aave': {
-      'localhost': 'mainnet',
-      'hardhat': 'mainnet'
-    }
-  }
-  // ...
-}
-```
+In case it is used a network configured without web socket protocol, `getProvider()` returns `hre.ethers.provider`, so it is safe to use always `getProvider()`.
