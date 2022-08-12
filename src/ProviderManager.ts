@@ -24,17 +24,13 @@ export class ProviderManager {
     
         switch (url.protocol) {
     
-            case "http:":
-            case "https:":
-                return
-    
             case "ws:":
             case "wss:":
                 this.wsProvider = new WebSocketProvider(url.href)
                 return
     
             default:
-                throw new HardhatPluginError('hardhat-ethers-provider', `Network URL not valid: '${url.href}'`);
+                return
     
         }
     }
