@@ -1,6 +1,6 @@
 {
   "name": "@sebasgoldberg/hardhat-wsprovider",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Hardhat plugin to enable web socket provider.",
   "repository": "github:sebasgoldberg/hardhat-wsprovider",
   "author": "Sebastian Goldberg",
