@@ -1,15 +1,13 @@
-import { WebSocketProvider } from "@ethersproject/providers";
+import { WebSocketProvider, JsonRpcProvider } from "@ethersproject/providers";
 
-import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { HardhatRuntimeEnvironment, HttpNetworkUserConfig } from "hardhat/types";
 import { URL } from "url";
 
 import { HardhatPluginError } from 'hardhat/plugins';
 
-import { JsonRpcProvider } from "@ethersproject/providers";
-
 export class ProviderManager {
 
-    protected wsProvider: WebSocketProvider|undefined
+    protected provider: JsonRpcProvider|undefined
 
     constructor(protected hre: HardhatRuntimeEnvironment){
         this.initialize()
@@ -26,10 +24,17 @@ export class ProviderManager {
     
             case "ws:":
             case "wss:":
-                this.wsProvider = new WebSocketProvider(url.href)
+                this.provider = new WebSocketProvider(url.href)
                 return
     
-            default:
+            case "http:":
+            case "https:":
+
+                const pollingInterval = (this.hre.network.config as HttpNetworkUserConfig).pollingInterval
+                if (pollingInterval){
+                    this.provider = new JsonRpcProvider(url.href)
+                    this.provider.pollingInterval = pollingInterval
+                }
                 return
     
         }
@@ -37,8 +42,8 @@ export class ProviderManager {
 
     getProvider(): JsonRpcProvider{
 
-        if (this.wsProvider) 
-            return this.wsProvider
+        if (this.provider) 
+            return this.provider
         return this.hre.ethers.provider
 
     }
